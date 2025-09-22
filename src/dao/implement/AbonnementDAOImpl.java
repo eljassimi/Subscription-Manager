@@ -8,6 +8,7 @@ import entity.StatutAbonnement;
 import util.DbConnection;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -57,7 +58,22 @@ public class AbonnementDAOImpl implements AbonnementDAO {
 
     @Override
     public List<Abonnement> findAll() throws Exception {
-        return Collections.emptyList();
+        List<Abonnement> res = new ArrayList<>();
+        String sql = "SELECT * from abonnement";
+        try(Connection c = DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)){
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Abonnement a = new Abonnement();
+                a.setId(rs.getString("id"));
+                a.setNomService(rs.getString("nom_service"));
+                a.setMontantMensuel(rs.getDouble("montant_mensuel"));
+                a.setDateDebut(rs.getDate("date_debut").toLocalDate());
+                a.setDateFin(rs.getDate("date_fin") == null ? null : rs.getDate("date_fin").toLocalDate());
+                a.setStatut(StatutAbonnement.valueOf(rs.getString("statut")));
+                res.add(a);
+            }
+        }
+        return res;
     }
 
     @Override
