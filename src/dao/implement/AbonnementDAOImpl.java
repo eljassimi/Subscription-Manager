@@ -78,7 +78,28 @@ public class AbonnementDAOImpl implements AbonnementDAO {
 
     @Override
     public void update(Abonnement a) throws Exception {
+        String sql = "UPDATE abonnement SET nom_service = ?, montant_mensuel = ?, date_debut = ?, date_fin = ?, statut = ?, type_abonnement = ?, duree_engagement_mois = ? WHERE id = ?";
+        try (Connection c = DbConnection.getConnection();
+            PreparedStatement ps = c.prepareStatement(sql)) {
 
+            ps.setString(1, a.getNomService());
+            ps.setDouble(2, a.getMontantMensuel());
+            ps.setDate(3, Date.valueOf(a.getDateDebut()));
+            ps.setDate(4, a.getDateFin() == null ? null : Date.valueOf(a.getDateFin()));
+            ps.setString(5, a.getStatut().name());
+
+            if (a instanceof AbonnementAvecEngagement) {
+                ps.setString(6, "AVEC_ENGAGEMENT");
+                ps.setInt(7, ((AbonnementAvecEngagement) a).getDureeEngagementMois());
+            } else {
+                ps.setString(6, "SANS_ENGAGEMENT");
+                ps.setNull(7, Types.INTEGER);
+            }
+
+            ps.setString(8, a.getId()); // WHERE id = ?
+
+            ps.executeUpdate();
+        }
     }
 
     @Override
