@@ -34,7 +34,7 @@ public class PaimentDAOImpl implements PaiementDAO {
 
     @Override
     public Optional<Paiement> findById(String id) throws Exception {
-        String sql = "SELECT FROM paiement WHERE id = ?";
+        String sql = "SELECT FROM paiement WHERE id_paiement = ?";
         try(Connection c = DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)){
             ps.setString(1,id);
             ResultSet rs = ps.executeQuery();
@@ -55,7 +55,23 @@ public class PaimentDAOImpl implements PaiementDAO {
 
     @Override
     public List<Paiement> findByAbonnement(String abonnementId) throws Exception {
-        return Collections.emptyList();
+        ArrayList<Paiement> pm = new ArrayList<>();
+        String sql = "SELECT FROM paiement WHERE id_abonnement = ?";
+        try(Connection c = DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)){
+            ps.setString(1,abonnementId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Paiement p = new Paiement();
+                p.setIdPaiement(rs.getString("id_paiement"));
+                p.setIdAbonnement(rs.getString("id_abonnement"));
+                p.setDateEcheance(rs.getDate("date_echeance").toLocalDate());
+                p.setDatePaiement(rs.getDate("date_paiement").toLocalDate());
+                p.setTypePaiement(rs.getString("type_paiement"));
+                p.setStatut(StatutPaiement.valueOf(rs.getString("status")));
+                pm.add(p);
+            }
+            return pm;
+        }
     }
 
     @Override
