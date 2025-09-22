@@ -12,6 +12,7 @@ public class Paiement {
     private StatutPaiement statut;
 
 
+    public Paiement(){}
     public Paiement(String idAbonnement, LocalDate dateEcheance, String typePaiement, StatutPaiement statut) {
         this.idPaiement = UUID.randomUUID().toString();
         this.idAbonnement = idAbonnement;
