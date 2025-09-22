@@ -104,6 +104,10 @@ public class AbonnementDAOImpl implements AbonnementDAO {
 
     @Override
     public void delete(String id) throws Exception {
-
+        String sql = "DELETE FROM abonnement WHERE id = ?";
+        try(Connection c = DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)){
+            ps.setString(1,id);
+            ps.executeUpdate();
+        }
     }
 }
