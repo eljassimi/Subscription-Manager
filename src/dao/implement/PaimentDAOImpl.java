@@ -95,6 +95,11 @@ public class PaimentDAOImpl implements PaiementDAO {
 
     @Override
     public void delete(String id) throws Exception {
+        String sql = "DELETE from paiement where id = ?";
+        try(Connection c =  DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)){
+            ps.setString(1,id);
+            ps.executeUpdate();
+        }
 
     }
 }
