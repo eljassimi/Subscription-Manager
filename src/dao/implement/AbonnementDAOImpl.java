@@ -3,12 +3,11 @@ package dao.implement;
 import dao.AbonnementDAO;
 import entity.Abonnement;
 import entity.AbonnementAvecEngagement;
+import entity.AbonnementSansEngagement;
+import entity.StatutAbonnement;
 import util.DbConnection;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.Types;
+import java.sql.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +37,21 @@ public class AbonnementDAOImpl implements AbonnementDAO {
 
     @Override
     public Optional<Abonnement> findById(String id) throws Exception {
+        String sql = "SELECT FROM abonnement Where id = ?";
+        try(Connection c = DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)){
+            ps.setString(1,id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                String type = rs.getString("type_abonnement");
+                Abonnement a;
+                if("AVEC_ENGAGEMENT".equals(type)) {
+                    a = new AbonnementAvecEngagement(rs.getString("nom_service"), rs.getDouble("montant_mensuel"), rs.getDate("date_debut").toLocalDate(), rs.getDate("date_fin") == null ? null : rs.getDate("date_fin").toLocalDate(), StatutAbonnement.valueOf(rs.getString("statut")), rs.getInt("duree_engagement_mois"));
+                } else {
+                    a = new AbonnementSansEngagement(rs.getString("nom_service"), rs.getDouble("montant_mensuel"), rs.getDate("date_debut").toLocalDate(), rs.getDate("date_fin") == null ? null : rs.getDate("date_fin").toLocalDate(), StatutAbonnement.valueOf(rs.getString("statut")));
+                }
+                return Optional.of(a);
+            }
+        }
         return Optional.empty();
     }
 
