@@ -38,7 +38,7 @@ public class AbonnementDAOImpl implements AbonnementDAO {
 
     @Override
     public Optional<Abonnement> findById(String id) throws Exception {
-        String sql = "SELECT FROM abonnement Where id = ?";
+        String sql = " SELECT id, nom_service, montant_mensuel, date_debut, date_fin, statut, type_abonnement, duree_engagement_mois FROM abonnement WHERE id = ? ";
         try(Connection c = DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)){
             ps.setString(1,id);
             ResultSet rs = ps.executeQuery();
@@ -77,7 +77,7 @@ public class AbonnementDAOImpl implements AbonnementDAO {
     }
 
     @Override
-    public void update(Abonnement a) throws Exception {
+    public void update(Abonnement a,String id) throws Exception {
         String sql = "UPDATE abonnement SET nom_service = ?, montant_mensuel = ?, date_debut = ?, date_fin = ?, statut = ?, type_abonnement = ?, duree_engagement_mois = ? WHERE id = ?";
         try (Connection c = DbConnection.getConnection();
             PreparedStatement ps = c.prepareStatement(sql)) {
@@ -96,7 +96,7 @@ public class AbonnementDAOImpl implements AbonnementDAO {
                 ps.setNull(7, Types.INTEGER);
             }
 
-            ps.setString(8, a.getId()); // WHERE id = ?
+            ps.setString(8, id);
 
             ps.executeUpdate();
         }

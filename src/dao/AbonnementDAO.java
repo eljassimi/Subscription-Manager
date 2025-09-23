@@ -9,6 +9,6 @@ public interface AbonnementDAO {
     void create(Abonnement a) throws  Exception;
     Optional<Abonnement> findById(String id) throws Exception;
     List<Abonnement> findAll() throws Exception;
-    void update(Abonnement a) throws Exception;
+    void update(Abonnement a,String id) throws Exception;
     void delete(String id) throws Exception;
 }

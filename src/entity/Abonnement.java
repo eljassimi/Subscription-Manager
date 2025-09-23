@@ -73,4 +73,16 @@ public class Abonnement {
     public void setStatut(StatutAbonnement statut) {
         this.statut = statut;
     }
+
+    @Override
+    public String toString() {
+        return "Abonnement{" +
+                "id='" + id + '\'' +
+                ", nomService='" + nomService + '\'' +
+                ", montantMensuel=" + montantMensuel +
+                ", dateDebut=" + dateDebut +
+                ", dateFin=" + dateFin +
+                ", statut=" + statut +
+                '}';
+    }
 }

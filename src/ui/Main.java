@@ -40,6 +40,7 @@ public class Main {
                          DisplayAllAbonnements();
                             break;
                         case "3":
+                         UpdateAbonnement();
                             break;
                         case "4":
                             break;
@@ -70,7 +71,7 @@ public class Main {
                 LocalDate dateFin = LocalDate.parse(sc.nextLine());
 
                 System.out.print("Statut (ACTIVE/SUSPENDU/RESILIE): ");
-                String statut = sc.nextLine();
+                String statut = sc.nextLine().toUpperCase();
 
             String type;
             do {
@@ -117,6 +118,60 @@ public class Main {
                     System.out.println("Status  : "+a.getStatut());
                     System.out.println("\n------------------------\n");
                 });
+            }
+
+            public static void UpdateAbonnement() throws Exception {
+                System.out.println("Entrer le id de L'abonnement : ");
+                String id = sc.nextLine();
+                System.out.println("Entrer les nouvaux informations : \n");
+
+                System.out.print("Nom du service: ");
+                String nomService = sc.nextLine();
+
+                System.out.print("Montant mensuel: ");
+                double montantMensuel = Double.parseDouble(sc.nextLine());
+
+                System.out.print("Date de debut (yyyy-mm-dd): ");
+                LocalDate dateDebut = LocalDate.parse(sc.nextLine());
+
+                System.out.print("Date de fin (yyyy-mm-dd): ");
+                LocalDate dateFin = LocalDate.parse(sc.nextLine());
+
+                System.out.print("Statut (ACTIVE/SUSPENDU/RESILIE): ");
+                String statut = sc.nextLine().toUpperCase();
+
+                String type;
+                do {
+                    System.out.print("Cet abonnement est-il avec engagement (A) ou sans engagement (S) ? ");
+                    type = sc.nextLine().trim().toUpperCase();
+                    if (!type.equals("A") && !type.equals("S")) {
+                        System.out.println("Choix invalide, Veuillez saisir 'A' pour Avec engagement ou 'S' pour Sans engagement.");
+                    }
+                } while (!type.equals("A") && !type.equals("S"));
+
+
+                if (type.equals("A")){
+                    System.out.println("Enter la durée du contract (Mois) : ");
+                    int dure = sc.nextInt();
+
+                    AbonnementAvecEngagement a = new AbonnementAvecEngagement();
+                    a.setNomService(nomService);
+                    a.setMontantMensuel(montantMensuel);
+                    a.setDateDebut(dateDebut);
+                    a.setDateFin(dateFin);
+                    a.setStatut(StatutAbonnement.valueOf(statut));
+                    a.setDureeEngagementMois(dure);
+                    abonnementService.update(a,id);
+                }else{
+                    Abonnement a = new Abonnement();
+                    a.setNomService(nomService);
+                    a.setMontantMensuel(montantMensuel);
+                    a.setDateDebut(dateDebut);
+                    a.setDateFin(dateFin);
+                    a.setStatut(StatutAbonnement.valueOf(statut));
+                    abonnementService.update(a,id);
+                }
+                System.out.println("Abonnement Modifier avec succes !");
             }
 
         }

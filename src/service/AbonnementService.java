@@ -13,7 +13,7 @@ public class AbonnementService {
     private AbonnementDAO dao = new AbonnementDAOImpl();
 
     public void Enregistrer(Abonnement a) throws Exception { dao.create(a); }
-    public void update(Abonnement a) throws Exception {dao.update(a);}
+    public void update(Abonnement a,String id) throws Exception {dao.update(a,id);}
     public void delete(String id) throws Exception {dao.delete(id);}
     public Optional<Abonnement> findById(String id) throws Exception { return dao.findById(id); }
     public List<Abonnement> findAll() throws Exception { return dao.findAll(); }
