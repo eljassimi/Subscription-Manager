@@ -15,13 +15,15 @@ import java.util.stream.Collectors;
 
 public class PaiementService {
 
-    private PaiementDAO dao =  new PaimentDAOImpl();
+    private PaiementDAO PaiementDAO =  new PaimentDAOImpl();
     private AbonnementDAO abonnementDAO = new AbonnementDAOImpl();
 
-    public void Enregistrer(Paiement p) throws Exception { dao.create(p);}
+    public void Enregistrer(Paiement p) throws Exception { PaiementDAO.create(p);}
+    public void Update(Paiement p) throws Exception {PaiementDAO.update(p);}
+    public void Delete(String id) throws Exception{PaiementDAO.delete(id);}
 
     public List<Paiement> detecterImpayes() throws Exception {
-        return dao.findAll().stream().filter(p -> p.getStatut() == StatutPaiement.NON_PAYE || p.getStatut() == StatutPaiement.EN_RETARD).collect(Collectors.toList());
+        return PaiementDAO.findAll().stream().filter(p -> p.getStatut() == StatutPaiement.NON_PAYE || p.getStatut() == StatutPaiement.EN_RETARD).collect(Collectors.toList());
     }
 
     public double montantTotalImpayesParAbonnement(String abonnementId) throws Exception {
@@ -29,7 +31,7 @@ public class PaiementService {
         Abonnement abonnement = abonnementDAO.findById(abonnementId)
                 .orElseThrow(() -> new Exception("Abonnement non trouve"));
 
-        List<Paiement> paiementsImpayes = dao.findByAbonnement(abonnementId).stream()
+        List<Paiement> paiementsImpayes = PaiementDAO.findByAbonnement(abonnementId).stream()
                 .filter(p -> p.getStatut() == StatutPaiement.NON_PAYE
                         || p.getStatut() == StatutPaiement.EN_RETARD)
                 .collect(Collectors.toList());
