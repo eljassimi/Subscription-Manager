@@ -13,7 +13,9 @@ public class Abonnement {
     protected StatutAbonnement statut;
 
 
-    public Abonnement(){}
+    public Abonnement(){
+        this.id = UUID.randomUUID().toString();
+    }
 
     public Abonnement(String nomService, double montantMensuel, LocalDate dateDebut, LocalDate dateFin, StatutAbonnement statut) {
         this.id = UUID.randomUUID().toString();
