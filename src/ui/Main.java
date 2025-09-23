@@ -37,6 +37,7 @@ public class Main {
                         CreateAbonnement();
                         break;
                         case "2":
+                         DisplayAllAbonnements();
                             break;
                         case "3":
                             break;
@@ -105,4 +106,17 @@ public class Main {
 
                 System.out.println("Abonnement cree avec succes !");
             }
+
+
+            public static void DisplayAllAbonnements() throws Exception{
+                abonnementService.findAll().stream().forEach(a->{
+                    System.out.println("Nom du Service : "+a.getNomService());
+                    System.out.println("Montant Mensuel : "+a.getMontantMensuel());
+                    System.out.println("Date debut : "+a.getDateDebut());
+                    System.out.println("Date de fin : "+a.getDateFin());
+                    System.out.println("Status  : "+a.getStatut());
+                    System.out.println("\n------------------------\n");
+                });
+            }
+
         }
