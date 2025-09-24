@@ -19,7 +19,7 @@ public class PaiementService {
     private AbonnementDAO abonnementDAO = new AbonnementDAOImpl();
 
     public void Enregistrer(Paiement p) throws Exception { PaiementDAO.create(p);}
-    public void Update(Paiement p) throws Exception {PaiementDAO.update(p);}
+    public void Update(Paiement p, String id) throws Exception {PaiementDAO.update(p,id);}
     public void Delete(String id) throws Exception{PaiementDAO.delete(id);}
 
     public List<Paiement> detecterImpayes() throws Exception {
@@ -38,5 +38,7 @@ public class PaiementService {
 
         return paiementsImpayes.size() * abonnement.getMontantMensuel();
     }
+
+    public Paiement findById(String id) throws Exception { return PaiementDAO.findById(id).get();}
 
 }

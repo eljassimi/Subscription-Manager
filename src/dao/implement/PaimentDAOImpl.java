@@ -33,7 +33,7 @@ public class PaimentDAOImpl implements PaiementDAO {
 
     @Override
     public Optional<Paiement> findById(String id) throws Exception {
-        String sql = "SELECT FROM paiement WHERE id_paiement = ?";
+        String sql = "SELECT * FROM paiement WHERE id_paiement = ?";
         try(Connection c = DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)){
             ps.setString(1,id);
             ResultSet rs = ps.executeQuery();
@@ -44,7 +44,7 @@ public class PaimentDAOImpl implements PaiementDAO {
                 p.setDateEcheance(rs.getDate("date_echeance").toLocalDate());
                 p.setDatePaiement(rs.getDate("date_paiement").toLocalDate());
                 p.setTypePaiement(rs.getString("type_paiement"));
-                p.setStatut(StatutPaiement.valueOf(rs.getString("status")));
+                p.setStatut(StatutPaiement.valueOf(rs.getString("statut")));
 
                 return Optional.of(p);
             }
@@ -94,15 +94,16 @@ public class PaimentDAOImpl implements PaiementDAO {
     }
 
     @Override
-    public void update(Paiement p) throws Exception {
-        String sql = "UPDATE paiement SET id_paiement = ?, id_abonnement = ?, date_echeance = ?, date_paiement = ?, type_paiement = ?, status = ?";
+    public void update(Paiement p,String id) throws Exception {
+        String sql = "UPDATE paiement SET id_paiement = ?, id_abonnement = ?, date_echeance = ?, date_paiement = ?, type_paiement = ?, statut = ? WHERE id_paiement = ?";
         try(Connection c = DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)){
             ps.setString(1,p.getIdPaiement());
             ps.setString(2,p.getIdAbonnement());
             ps.setDate(3, Date.valueOf(p.getDateEcheance()));
-            ps.setDate(4,Date.valueOf(p.getIdPaiement()));
+            ps.setDate(4, Date.valueOf(p.getDatePaiement()));
             ps.setString(5,p.getTypePaiement());
             ps.setString(6,p.getStatut().name());
+            ps.setString(7,id);
             ps.executeUpdate();
         }
 

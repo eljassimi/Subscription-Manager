@@ -48,6 +48,9 @@ public class Main {
                         case "5":
                             EnregistrerPaiement();
                             break;
+                        case "6":
+                            ModifierPaiement();
+                            break;
                         case "0":
                             System.exit(0);
                         default:
@@ -123,9 +126,6 @@ public class Main {
                 System.out.print("Date de debut (yyyy-mm-dd): ");
                 LocalDate dateDebut = LocalDate.parse(sc.nextLine());
 
-                System.out.print("Date de fin (yyyy-mm-dd): ");
-                LocalDate dateFin = LocalDate.parse(sc.nextLine());
-
                 System.out.print("Statut (ACTIVE/SUSPENDU/RESILIE): ");
                 String statut = sc.nextLine().toUpperCase();
 
@@ -198,6 +198,36 @@ public class Main {
 
                 System.out.println("Paiement enregistré !");
             }
+
+            public static void ModifierPaiement() throws Exception {
+                System.out.println("--- Modifier un Paiement ---");
+
+                System.out.print("ID du paiement à modifier : ");
+                String paiementId = sc.nextLine();
+
+
+                Paiement paiement = paiementService.findById(paiementId);
+                System.out.println("Paiement actuel : " + paiement);
+
+                System.out.print("Nouvelle date de paiement (yyyy-mm-dd) [" + paiement.getDatePaiement() + "] : ");
+                String datePaiementStr = sc.nextLine();
+                paiement.setDatePaiement(LocalDate.parse(datePaiementStr));
+
+
+                System.out.print("Nouveau type de paiement [" + paiement.getTypePaiement() + "] : ");
+                String typePaiement = sc.nextLine();
+                paiement.setTypePaiement(typePaiement);
+
+
+                System.out.print("Nouveau statut (PAYE, NON_PAYE, EN_RETARD) [" + paiement.getStatut() + "] : ");
+                String statutStr = sc.nextLine();
+                paiement.setStatut(StatutPaiement.valueOf(statutStr.toUpperCase()));
+
+                paiementService.Update(paiement,paiementId);
+
+                System.out.println("Paiement modifié avec succès !");
+            }
+
 
 
 

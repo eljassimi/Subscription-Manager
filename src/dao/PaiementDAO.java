@@ -10,6 +10,6 @@ public interface PaiementDAO {
     Optional<Paiement> findById(String id) throws Exception;
     List<Paiement> findByAbonnement(String abonnementId) throws Exception;
     List<Paiement> findAll() throws Exception;
-    void update(Paiement p) throws Exception;
+    void update(Paiement p,String id) throws Exception;
     void delete(String id) throws Exception;
 }
