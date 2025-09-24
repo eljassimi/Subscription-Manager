@@ -1,13 +1,13 @@
 package ui;
 
-import entity.Abonnement;
-import entity.AbonnementAvecEngagement;
-import entity.AbonnementSansEngagement;
-import entity.StatutAbonnement;
+import entity.*;
 import service.AbonnementService;
 import service.PaiementService;
 
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 
@@ -43,6 +43,10 @@ public class Main {
                          UpdateAbonnement();
                             break;
                         case "4":
+                         DeleteAbonnement();
+                            break;
+                        case "5":
+                            EnregistrerPaiement();
                             break;
                         case "0":
                             System.exit(0);
@@ -55,7 +59,7 @@ public class Main {
             }
         }
 
-        public static void CreateAbonnement() throws Exception {
+            public static void CreateAbonnement() throws Exception {
                 System.out.println("--- Creation un nouvel abonnement ---");
 
                 System.out.print("Nom du service: ");
@@ -66,9 +70,6 @@ public class Main {
 
                 System.out.print("Date de debut (yyyy-mm-dd): ");
                 LocalDate dateDebut = LocalDate.parse(sc.nextLine());
-
-                System.out.print("Date de fin (yyyy-mm-dd): ");
-                LocalDate dateFin = LocalDate.parse(sc.nextLine());
 
                 System.out.print("Statut (ACTIVE/SUSPENDU/RESILIE): ");
                 String statut = sc.nextLine().toUpperCase();
@@ -87,27 +88,15 @@ public class Main {
                     System.out.println("Enter la durée du contract : ");
                     int dure = sc.nextInt();
 
-                    AbonnementAvecEngagement a = new AbonnementAvecEngagement();
-                    a.setNomService(nomService);
-                    a.setMontantMensuel(montantMensuel);
-                    a.setDateDebut(dateDebut);
-                    a.setDateFin(dateFin);
-                    a.setStatut(StatutAbonnement.valueOf(statut));
-                    a.setDureeEngagementMois(dure);
+                    AbonnementAvecEngagement a = new AbonnementAvecEngagement(nomService, montantMensuel, dateDebut, StatutAbonnement.valueOf(statut),dure);
                     abonnementService.Enregistrer(a);
                 }else{
-                    Abonnement a = new Abonnement();
-                    a.setNomService(nomService);
-                    a.setMontantMensuel(montantMensuel);
-                    a.setDateDebut(dateDebut);
-                    a.setDateFin(dateFin);
-                    a.setStatut(StatutAbonnement.valueOf(statut));
+                    Abonnement a = new Abonnement(nomService, montantMensuel, dateDebut, StatutAbonnement.valueOf(statut));
                     abonnementService.Enregistrer(a);
-                }
+               }
 
                 System.out.println("Abonnement cree avec succes !");
             }
-
 
             public static void DisplayAllAbonnements() throws Exception{
                 abonnementService.findAll().stream().forEach(a->{
@@ -158,7 +147,6 @@ public class Main {
                     a.setNomService(nomService);
                     a.setMontantMensuel(montantMensuel);
                     a.setDateDebut(dateDebut);
-                    a.setDateFin(dateFin);
                     a.setStatut(StatutAbonnement.valueOf(statut));
                     a.setDureeEngagementMois(dure);
                     abonnementService.update(a,id);
@@ -167,11 +155,50 @@ public class Main {
                     a.setNomService(nomService);
                     a.setMontantMensuel(montantMensuel);
                     a.setDateDebut(dateDebut);
-                    a.setDateFin(dateFin);
                     a.setStatut(StatutAbonnement.valueOf(statut));
                     abonnementService.update(a,id);
                 }
                 System.out.println("Abonnement Modifier avec succes !");
             }
 
-        }
+            public static void DeleteAbonnement()throws Exception{
+                System.out.println("Entrer l'id de l'abonnement : ");
+                String id = sc.nextLine();
+                abonnementService.delete(id);
+                System.out.println("Abonnement Delete by succes !");
+            }
+
+            public static void EnregistrerPaiement() throws Exception {
+                System.out.println("--- Enregistrer un nouveau Paiement ---");
+
+                System.out.print("ID abonnement : ");
+                String abonnementId = sc.nextLine();
+
+                Abonnement abonnement = abonnementService.findById(abonnementId)
+                        .orElseThrow(() -> new Exception("Abonnement introuvable !"));
+
+                LocalDate prochaineEcheance = abonnementService.genererEcheances(abonnement).stream()
+                        .filter(date -> !date.isBefore(LocalDate.now()))
+                        .findFirst()
+                        .orElseThrow(() -> new Exception("Aucune Echeance Detecté (Abonnement Termine)" ));
+
+                System.out.println("Echeance Generé : " + prochaineEcheance);
+
+                System.out.print("Date de Paiement (yyyy-mm-dd) : ");
+                LocalDate datePaiement = LocalDate.parse(sc.nextLine());
+
+                System.out.print("Type de paiement : ");
+                String type = sc.nextLine();
+
+                System.out.print("Statut (PAYE, NON_PAYE, EN_RETARD) : ");
+                StatutPaiement statut = StatutPaiement.valueOf(sc.nextLine().toUpperCase());
+
+                Paiement paiement = new Paiement(abonnementId, prochaineEcheance, datePaiement, type, statut);
+                paiementService.Enregistrer(paiement);
+
+                System.out.println("Paiement enregistré !");
+            }
+
+
+
+}

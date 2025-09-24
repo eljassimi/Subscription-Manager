@@ -13,10 +13,11 @@ public class Paiement {
 
 
     public Paiement(){}
-    public Paiement(String idAbonnement, LocalDate dateEcheance, String typePaiement, StatutPaiement statut) {
+    public Paiement(String idAbonnement, LocalDate dateEcheance,LocalDate datePaiement, String typePaiement, StatutPaiement statut) {
         this.idPaiement = UUID.randomUUID().toString();
         this.idAbonnement = idAbonnement;
         this.dateEcheance = dateEcheance;
+        this.datePaiement = datePaiement;
         this.typePaiement = typePaiement;
         this.statut = statut;
     }

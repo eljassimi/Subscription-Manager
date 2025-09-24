@@ -3,6 +3,8 @@ package entity;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import static util.DateUtils.nextMonth;
+
 public class Abonnement {
 
     protected String id;
@@ -17,12 +19,12 @@ public class Abonnement {
         this.id = UUID.randomUUID().toString();
     }
 
-    public Abonnement(String nomService, double montantMensuel, LocalDate dateDebut, LocalDate dateFin, StatutAbonnement statut) {
+    public Abonnement(String nomService, double montantMensuel, LocalDate dateDebut, StatutAbonnement statut) {
         this.id = UUID.randomUUID().toString();
         this.nomService = nomService;
         this.montantMensuel = montantMensuel;
         this.dateDebut = dateDebut;
-        this.dateFin = dateFin;
+        this.dateFin = nextMonth(dateDebut,1);
         this.statut = statut;
     }
 
@@ -62,7 +64,7 @@ public class Abonnement {
         return dateFin;
     }
 
-    public void setDateFin(LocalDate dateFin) {
+    public void setDateFin(LocalDate dateFin){
         this.dateFin = dateFin;
     }
 

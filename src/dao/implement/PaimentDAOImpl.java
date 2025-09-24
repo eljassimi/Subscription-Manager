@@ -23,11 +23,10 @@ public class PaimentDAOImpl implements PaiementDAO {
             ps.setString(1,p.getIdPaiement());
             ps.setString(2,p.getIdAbonnement());
             ps.setDate(3, Date.valueOf(p.getDateEcheance()));
-            ps.setDate(4,Date.valueOf(p.getIdPaiement()));
+            ps.setDate(4,Date.valueOf(p.getDatePaiement()));
             ps.setString(5,p.getTypePaiement());
             ps.setString(6,p.getStatut().name());
             ps.executeUpdate();
-
         }
 
     }

@@ -23,7 +23,7 @@ public class AbonnementDAOImpl implements AbonnementDAO {
             ps.setString(2, a.getNomService());
             ps.setDouble(3, a.getMontantMensuel());
             ps.setDate(4, Date.valueOf(a.getDateDebut()));
-            ps.setDate(5, a.getDateFin() == null ? null : Date.valueOf(a.getDateFin()));
+            ps.setDate(5, Date.valueOf(a.getDateFin()));
             ps.setString(6, a.getStatut().name());
             if (a instanceof AbonnementAvecEngagement) {
                 ps.setString(7, "AVEC_ENGAGEMENT");
@@ -46,9 +46,9 @@ public class AbonnementDAOImpl implements AbonnementDAO {
                 String type = rs.getString("type_abonnement");
                 Abonnement a;
                 if("AVEC_ENGAGEMENT".equals(type)) {
-                    a = new AbonnementAvecEngagement(rs.getString("nom_service"), rs.getDouble("montant_mensuel"), rs.getDate("date_debut").toLocalDate(), rs.getDate("date_fin") == null ? null : rs.getDate("date_fin").toLocalDate(), StatutAbonnement.valueOf(rs.getString("statut")), rs.getInt("duree_engagement_mois"));
+                    a = new AbonnementAvecEngagement(rs.getString("nom_service"), rs.getDouble("montant_mensuel"), rs.getDate("date_debut").toLocalDate(), StatutAbonnement.valueOf(rs.getString("statut")), rs.getInt("duree_engagement_mois"));
                 } else {
-                    a = new AbonnementSansEngagement(rs.getString("nom_service"), rs.getDouble("montant_mensuel"), rs.getDate("date_debut").toLocalDate(), rs.getDate("date_fin") == null ? null : rs.getDate("date_fin").toLocalDate(), StatutAbonnement.valueOf(rs.getString("statut")));
+                    a = new AbonnementSansEngagement(rs.getString("nom_service"), rs.getDouble("montant_mensuel"), rs.getDate("date_debut").toLocalDate(), StatutAbonnement.valueOf(rs.getString("statut")));
                 }
                 return Optional.of(a);
             }
@@ -68,7 +68,7 @@ public class AbonnementDAOImpl implements AbonnementDAO {
                 a.setNomService(rs.getString("nom_service"));
                 a.setMontantMensuel(rs.getDouble("montant_mensuel"));
                 a.setDateDebut(rs.getDate("date_debut").toLocalDate());
-                a.setDateFin(rs.getDate("date_fin") == null ? null : rs.getDate("date_fin").toLocalDate());
+                a.setDateFin(rs.getDate("date_fin").toLocalDate());
                 a.setStatut(StatutAbonnement.valueOf(rs.getString("statut")));
                 res.add(a);
             }

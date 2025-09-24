@@ -3,7 +3,7 @@ package util;
 import java.time.LocalDate;
 
 public class DateUtils {
-    public static LocalDate nextMonth(LocalDate from) {
-        return from.plusMonths(1);
+    public static LocalDate nextMonth(LocalDate from,int x) {
+        return from.plusMonths(x);
     }
 }
