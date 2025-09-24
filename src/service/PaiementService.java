@@ -8,8 +8,6 @@ import entity.Abonnement;
 import entity.Paiement;
 import entity.StatutPaiement;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

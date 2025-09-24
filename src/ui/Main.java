@@ -51,6 +51,9 @@ public class Main {
                         case "6":
                             ModifierPaiement();
                             break;
+                        case "7":
+                            SupprimerPaiement();
+                            break;
                         case "0":
                             System.exit(0);
                         default:
@@ -226,6 +229,16 @@ public class Main {
                 paiementService.Update(paiement,paiementId);
 
                 System.out.println("Paiement modifié avec succès !");
+            }
+
+            public static void SupprimerPaiement() throws Exception {
+                System.out.println("--- Supprimer un Paiement ---");
+
+                System.out.print("ID du paiement à supprimer : ");
+                String paiementId = sc.nextLine();
+                paiementService.Delete(paiementId);
+                System.out.println("Paiement a Supprimer avec Succes ! ");
+
             }
 
 
