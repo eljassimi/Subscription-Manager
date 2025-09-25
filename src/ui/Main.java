@@ -2,6 +2,7 @@ package ui;
 
 import entity.*;
 import service.AbonnementService;
+import service.LoggerService;
 import service.PaiementService;
 
 import java.time.LocalDate;
@@ -109,9 +110,11 @@ public class Main {
 
                     AbonnementAvecEngagement a = new AbonnementAvecEngagement(nomService, montantMensuel, dateDebut, StatutAbonnement.valueOf(statut),dure);
                     abonnementService.Enregistrer(a);
+                    LoggerService.log("Creation abonnement avec engagement: " + a.getNomService());
                 }else{
                     Abonnement a = new Abonnement(nomService, montantMensuel, dateDebut, StatutAbonnement.valueOf(statut));
                     abonnementService.Enregistrer(a);
+                    LoggerService.log("Creation abonnement sans engagement: " + a.getNomService());
                }
 
                 System.out.println("Abonnement cree avec succes !");
@@ -166,6 +169,7 @@ public class Main {
                     a.setStatut(StatutAbonnement.valueOf(statut));
                     a.setDureeEngagementMois(dure);
                     abonnementService.update(a,id);
+                    LoggerService.log("Update abonnement avec engagement: " + a.getNomService());
                 }else{
                     Abonnement a = new Abonnement();
                     a.setNomService(nomService);
@@ -173,6 +177,7 @@ public class Main {
                     a.setDateDebut(dateDebut);
                     a.setStatut(StatutAbonnement.valueOf(statut));
                     abonnementService.update(a,id);
+                    LoggerService.log("Update abonnement sans engagement: " + a.getNomService());
                 }
                 System.out.println("Abonnement Modifier avec succes !");
             }
@@ -181,6 +186,7 @@ public class Main {
                 System.out.println("Entrer l'id de l'abonnement : ");
                 String id = sc.nextLine();
                 abonnementService.delete(id);
+                LoggerService.log("Delete abonnement de ce id :  " +id);
                 System.out.println("Abonnement Delete by succes !");
             }
 
@@ -212,6 +218,7 @@ public class Main {
                 Paiement paiement = new Paiement(abonnementId, prochaineEcheance, datePaiement, type, statut);
                 paiementService.Enregistrer(paiement);
 
+                LoggerService.log("Paiement enregistré pour abonnement ID " + abonnementId + " | Montant: " + abonnement.getMontantMensuel() + " | Statut: " + statut);
                 System.out.println("Paiement enregistré !");
             }
 
@@ -240,6 +247,7 @@ public class Main {
                 paiement.setStatut(StatutPaiement.valueOf(statutStr.toUpperCase()));
 
                 paiementService.Update(paiement,paiementId);
+                LoggerService.log("Paiement modifier de ce ID "+ paiementId);
 
                 System.out.println("Paiement modifié avec succès !");
             }
@@ -250,6 +258,7 @@ public class Main {
                 System.out.print("ID du paiement à supprimer : ");
                 String paiementId = sc.nextLine();
                 paiementService.Delete(paiementId);
+                LoggerService.log("Paiement Supprimer de ce ID "+ paiementId);
                 System.out.println("Paiement a Supprimer avec Succes ! ");
             }
 
