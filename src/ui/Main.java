@@ -25,7 +25,7 @@ public class Main {
                 System.out.println("5. Enregistrer paiement");
                 System.out.println("6. Modifier paiement");
                 System.out.println("7. Supprimer paiement");
-                System.out.println("8. Consulter paiements manqués et montant total impayé");
+                System.out.println("8. Consulter paiements manqués");
                 System.out.println("9. Consulter Montant total impayé");
                 System.out.println("10. Afficher somme payée d'un abonnement");
                 System.out.println("11. Afficher les 5 derniers paiements");
@@ -61,6 +61,8 @@ public class Main {
                         case "9":
                             MontantImpyees();
                             break;
+                        case "10":
+                            Montantpyees();
                         case "0":
                             System.exit(0);
                         default:
@@ -254,6 +256,12 @@ public class Main {
                 System.out.println("ID du Abonnement : ");
                 String AbonnementID = sc.nextLine();
                 System.out.println("Montant Total Impyee est  : "+paiementService.montantTotalImpayesParAbonnement(AbonnementID));
+            }
+
+            public static void Montantpyees()throws Exception{
+                System.out.println("ID du Abonnement : ");
+                String AbonnementID = sc.nextLine();
+                System.out.println("Montant Total payée est  : "+paiementService.montantTotalpayesParAbonnement(AbonnementID));
             }
 
 }

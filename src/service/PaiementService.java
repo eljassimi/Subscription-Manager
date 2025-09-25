@@ -36,6 +36,17 @@ public class PaiementService {
 
         return paiementsImpayes.size() * abonnement.getMontantMensuel();
     }
+    public double montantTotalpayesParAbonnement(String abonnementId) throws Exception {
+
+        Abonnement abonnement = abonnementDAO.findById(abonnementId)
+                .orElseThrow(() -> new Exception("Abonnement non trouve"));
+
+        List<Paiement> paiementsImpayes = PaiementDAO.findByAbonnement(abonnementId).stream()
+                .filter(p -> p.getStatut() == StatutPaiement.PAYE)
+                .collect(Collectors.toList());
+
+        return paiementsImpayes.size() * abonnement.getMontantMensuel();
+    }
 
     public Paiement findById(String id) throws Exception { return PaiementDAO.findById(id).get();}
 
