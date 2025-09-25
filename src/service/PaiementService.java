@@ -50,4 +50,6 @@ public class PaiementService {
 
     public Paiement findById(String id) throws Exception { return PaiementDAO.findById(id).get();}
 
+    public List<Paiement> GetLastFivePaiement()throws Exception{ return PaiementDAO.findAll().stream().limit(5).collect(Collectors.toList()); }
+
 }

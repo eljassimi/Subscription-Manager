@@ -63,6 +63,10 @@ public class Main {
                             break;
                         case "10":
                             Montantpyees();
+                            break;
+                        case "11":
+                            LastFivePaiement();
+                            break;
                         case "0":
                             System.exit(0);
                         default:
@@ -264,4 +268,8 @@ public class Main {
                 System.out.println("Montant Total payée est  : "+paiementService.montantTotalpayesParAbonnement(AbonnementID));
             }
 
+            public static void LastFivePaiement() throws Exception {
+             System.out.println("--- List of the last 5 paiements ---");
+             paiementService.GetLastFivePaiement().forEach(System.out::println);
+            }
 }
