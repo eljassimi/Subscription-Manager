@@ -26,8 +26,9 @@ public class Main {
                 System.out.println("6. Modifier paiement");
                 System.out.println("7. Supprimer paiement");
                 System.out.println("8. Consulter paiements manqués et montant total impayé");
-                System.out.println("9. Afficher somme payée d'un abonnement");
-                System.out.println("10. Afficher les 5 derniers paiements");
+                System.out.println("9. Consulter Montant total impayé");
+                System.out.println("10. Afficher somme payée d'un abonnement");
+                System.out.println("11. Afficher les 5 derniers paiements");
                 System.out.println("0. Quitter");
                 System.out.print("Choix: ");
                 String choice = sc.nextLine();
@@ -53,6 +54,12 @@ public class Main {
                             break;
                         case "7":
                             SupprimerPaiement();
+                            break;
+                        case "8":
+                            DetectImpyees();
+                            break;
+                        case "9":
+                            MontantImpyees();
                             break;
                         case "0":
                             System.exit(0);
@@ -238,10 +245,15 @@ public class Main {
                 String paiementId = sc.nextLine();
                 paiementService.Delete(paiementId);
                 System.out.println("Paiement a Supprimer avec Succes ! ");
-
             }
 
-
-
+            public static void DetectImpyees() throws Exception {
+                   paiementService.detecterImpayes().stream().forEach(System.out::println);
+            }
+            public static void MontantImpyees() throws Exception{
+                System.out.println("ID du Abonnement : ");
+                String AbonnementID = sc.nextLine();
+                System.out.println("Montant Total Impyee est  : "+paiementService.montantTotalImpayesParAbonnement(AbonnementID));
+            }
 
 }

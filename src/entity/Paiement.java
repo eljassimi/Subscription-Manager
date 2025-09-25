@@ -69,4 +69,15 @@ public class Paiement {
     public void setStatut(StatutPaiement statut) {
         this.statut = statut;
     }
+
+    @Override
+    public String toString() {
+        return "Paiement : " +
+                "\nidPaiement='" + idPaiement + '\'' +
+                "\nidAbonnement='" + idAbonnement + '\'' +
+                "\ndateEcheance=" + dateEcheance +
+                "\ndatePaiement=" + datePaiement +
+                "\ntypePaiement='" + typePaiement + '\'' +
+                "\nstatut=" + statut;
+    }
 }

@@ -55,7 +55,7 @@ public class PaimentDAOImpl implements PaiementDAO {
     @Override
     public List<Paiement> findByAbonnement(String abonnementId) throws Exception {
         ArrayList<Paiement> pm = new ArrayList<>();
-        String sql = "SELECT FROM paiement WHERE id_abonnement = ?";
+        String sql = "SELECT * FROM paiement WHERE id_abonnement = ?";
         try(Connection c = DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)){
             ps.setString(1,abonnementId);
             ResultSet rs = ps.executeQuery();
@@ -66,7 +66,7 @@ public class PaimentDAOImpl implements PaiementDAO {
                 p.setDateEcheance(rs.getDate("date_echeance").toLocalDate());
                 p.setDatePaiement(rs.getDate("date_paiement").toLocalDate());
                 p.setTypePaiement(rs.getString("type_paiement"));
-                p.setStatut(StatutPaiement.valueOf(rs.getString("status")));
+                p.setStatut(StatutPaiement.valueOf(rs.getString("statut")));
                 pm.add(p);
             }
             return pm;
@@ -86,7 +86,7 @@ public class PaimentDAOImpl implements PaiementDAO {
                 p.setDateEcheance(rs.getDate("date_echeance").toLocalDate());
                 p.setDatePaiement(rs.getDate("date_paiement").toLocalDate());
                 p.setTypePaiement(rs.getString("type_paiement"));
-                p.setStatut(StatutPaiement.valueOf(rs.getString("status")));
+                p.setStatut(StatutPaiement.valueOf(rs.getString("statut")));
                 pm.add(p);
             }
         }
