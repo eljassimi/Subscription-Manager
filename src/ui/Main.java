@@ -83,7 +83,7 @@ public class Main {
         System.out.print("Nom du service: ");
         String nomService = sc.nextLine();
 
-        System.out.print("Montant mensuel: ");
+        System.out.print("Montant mensuel : ");
         double montantMensuel = Double.parseDouble(sc.nextLine());
         if (montantMensuel <= 0) {
             throw new Exception("Le montant mensuel doit etre positif !");

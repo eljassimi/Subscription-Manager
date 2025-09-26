@@ -23,9 +23,6 @@ public class AbonnementService {
     public void delete(String id) throws Exception {dao.delete(id);}
     public Optional<Abonnement> findById(String id) throws Exception { return dao.findById(id); }
     public List<Abonnement> findAll() throws Exception { return dao.findAll(); }
-    public List<Abonnement> findActive() throws Exception {
-        return dao.findAll().stream().filter(ab -> ab.getStatut().name().equals("ACTIVE")).collect(Collectors.toList());
-    }
     public List<LocalDate> genererEcheances(Abonnement a) {
         List<LocalDate> echeances = new ArrayList<>();
 
@@ -44,6 +41,4 @@ public class AbonnementService {
         }
         return echeances;
     }
-
-
 }
